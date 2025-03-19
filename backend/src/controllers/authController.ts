@@ -35,7 +35,7 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
         const result = await pool
             .request()
             .input("userId", sql.Int, (req as any).user!.userId)
-            .query(`SELECT fullName, email FROM Users WHERE id = @userId`);
+            .query(`SELECT fullName, email, role FROM Users WHERE id = @userId`);
 
         res.status(200).json(result.recordset[0]);
         return
@@ -82,16 +82,4 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 export const logoutUser = (req: Request, res: Response) => {
     res.clearCookie("token");
     res.json({ message: "Logged out successfully" });
-};
-
-export const getFoodItems = async (req: Request, res: Response) => {
-    try {
-        const pool = await poolPromise;
-        const result = await pool.request().query("SELECT id, name FROM foods");
-        console.log(result)
-        res.json(result.recordset);
-    } catch (error) {
-        console.error("Error fetching food items:", error);
-        res.status(500).json({ message: "Server error" });
-    }
 };

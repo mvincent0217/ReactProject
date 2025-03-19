@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import { Login, Register, Dashboard, ViewReservation, Profile, FoodReservation, AddFood } from './pages'
+import { Login, Register, Dashboard, ViewOrders, Profile, CreateReservation, CreateOrders, AddFood, ViewReservation } from './pages'
 import { CookiesProvider } from 'react-cookie';
 
 const App: React.FC = () => {
@@ -22,16 +22,6 @@ const App: React.FC = () => {
 
           {/* Private Route (Protected) */}
           <Route element={<PrivateRoute />}>
-            <Route path="/foodreservation" element={<FoodReservation />} />
-          </Route>
-
-          {/* Private Route (Protected) */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/viewreservations" element={<ViewReservation />} />
-          </Route>
-
-          {/* Private Route (Protected) */}
-          <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
 
@@ -39,6 +29,27 @@ const App: React.FC = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/addfood" element={<AddFood />} />
           </Route>
+
+          {/* Private Route (Protected) */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/createorders" element={<CreateOrders />} />
+          </Route>
+
+          {/* Private Route (Protected) */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/vieworders" element={<ViewOrders />} />
+          </Route>
+
+          {/* Private Route (Protected) */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/createreservation" element={<CreateReservation />} />
+          </Route>
+
+          {/* Private Route (Protected) */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/viewreservation" element={<ViewReservation />} />
+          </Route>
+
 
           {/* Default Route (Redirect to Login) */}
           <Route path="*" element={<Navigate to="/login" />} />

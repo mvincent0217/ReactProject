@@ -3,7 +3,7 @@ import {
     Container, Typography, Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from "@mui/material";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 interface Reservation {
     id: number;
@@ -12,7 +12,7 @@ interface Reservation {
     reservation_time: string;
 }
 
-const ViewReservation: React.FC = () => {
+const ViewOrders: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [userName, setUserName] = useState<string>("");
     const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const ViewReservation: React.FC = () => {
             <Container>
                 <Box sx={{ mt: 4, textAlign: "center" }}>
                     <Typography variant="h4" gutterBottom>
-                        My Reservations
+                        Your orders
                     </Typography>
                 </Box>
 
@@ -89,5 +89,5 @@ const ViewReservation: React.FC = () => {
     );
 };
 
-export default ViewReservation;
-export { ViewReservation }
+export default ViewOrders;
+export { ViewOrders }

@@ -37,3 +37,15 @@ export const addFoods = async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ message: "Internal server error", error });
     }
 };
+
+export const getFoodItems = async (req: Request, res: Response) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().query("SELECT id, name FROM foods");
+        console.log(result)
+        res.json(result.recordset);
+    } catch (error) {
+        console.error("Error fetching food items:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

@@ -5,17 +5,6 @@ import { sql, poolPromise } from "../config/dbConfig";
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export const getFoodItems = async (req: Request, res: Response) => {
-    try {
-        const pool = await poolPromise;
-        const result = await pool.request().query("SELECT id, name FROM foods");
-        res.json(result.recordset);
-    } catch (error) {
-        console.error("Error fetching food items:", error);
-        res.status(500).json({ message: "Server error" });
-    }
-};
-
 export const reserveFood = async (req: Request, res: Response): Promise<void> => {
     try {
         const { user_fullname, food_id } = req.body;

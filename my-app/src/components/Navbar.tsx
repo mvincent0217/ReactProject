@@ -16,7 +16,8 @@ import {
     Add as AddIcon,
     AccountCircle as ProfileIcon,
     Logout as LogoutIcon,
-    List as ListIcon
+    List as ListIcon,
+    Hotel as HotelIcon,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -24,8 +25,10 @@ import axios from "axios";
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState<string>("?");
+    const [userRole, setUserRole] = useState<string>("user");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [ordersMenuEl, setOrdersMenuEl] = useState<null | HTMLElement>(null);
+    const [reservationsMenuEl, setReservationsMenuEl] = useState<null | HTMLElement>(null);
     const [adminMenuEl, setAdminMenuEl] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
@@ -37,6 +40,7 @@ const Navbar: React.FC = () => {
 
                 const fullName = response.data.fullName || "User";
                 setUserName(fullName.charAt(0).toUpperCase());
+                setUserRole(response.data.role || "user");
             } catch (error) {
                 console.error("Error fetching user:", error);
             }
@@ -45,7 +49,6 @@ const Navbar: React.FC = () => {
         fetchUser();
     }, []);
 
-    // Profile Menu Handlers
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -73,13 +76,20 @@ const Navbar: React.FC = () => {
         handleMenuClose();
     };
 
-    // Orders Menu Handlers
     const handleOrdersMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setOrdersMenuEl(event.currentTarget);
     };
 
     const handleOrdersMenuClose = () => {
         setOrdersMenuEl(null);
+    };
+
+    const handleReservationsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setReservationsMenuEl(event.currentTarget);
+    };
+
+    const handleReservationsMenuClose = () => {
+        setReservationsMenuEl(null);
     };
 
     const handleAdminMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -100,28 +110,47 @@ const Navbar: React.FC = () => {
                     Dashboard
                 </Button>
 
-                <Button color="inherit" onClick={handleAdminMenuOpen} startIcon={<AdminIcon />}>
-                    Admin
-                </Button>
-                <Menu anchorEl={adminMenuEl} open={Boolean(adminMenuEl)} onClose={handleAdminMenuClose}>
-                    <MenuItem onClick={() => navigate("/addfood")}>
-                        <AddIcon sx={{ mr: 1 }} />
-                        Add Food
-                    </MenuItem>
-                </Menu>
+                {userRole === "admin" ? (
+                    <>
+                        <Button color="inherit" onClick={handleAdminMenuOpen} startIcon={<AdminIcon />}>
+                            Admin
+                        </Button>
+                        <Menu anchorEl={adminMenuEl} open={Boolean(adminMenuEl)} onClose={handleAdminMenuClose}>
+                            <MenuItem onClick={() => navigate("/addfood")}>
+                                <AddIcon sx={{ mr: 1 }} />
+                                Add Food
+                            </MenuItem>
+                        </Menu>
+                    </>
+                ) : null}
 
                 {/* Orders Dropdown Menu */}
                 <Button color="inherit" onClick={handleOrdersMenuOpen} startIcon={<RestaurantIcon />}>
                     Orders
                 </Button>
                 <Menu anchorEl={ordersMenuEl} open={Boolean(ordersMenuEl)} onClose={handleOrdersMenuClose}>
-                    <MenuItem onClick={() => navigate("/viewreservations")}>
+                    <MenuItem onClick={() => navigate("/vieworders")}>
                         <ListIcon sx={{ mr: 1 }} />
-                        View Reservation
+                        View Order/s
                     </MenuItem>
-                    <MenuItem onClick={() => navigate("/foodreservation")}>
+                    <MenuItem onClick={() => navigate("/createorders")}>
                         <AddIcon sx={{ mr: 1 }} />
-                        Add Reservation
+                        Create Order/s
+                    </MenuItem>
+                </Menu>
+
+                {/* Reservation Dropdown Menu */}
+                <Button color="inherit" onClick={handleReservationsMenuOpen} startIcon={<HotelIcon />}>
+                    Reservation
+                </Button>
+                <Menu anchorEl={reservationsMenuEl} open={Boolean(reservationsMenuEl)} onClose={handleReservationsMenuClose}>
+                    <MenuItem onClick={() => navigate("/viewreservation")}>
+                        <ListIcon sx={{ mr: 1 }} />
+                        View Reservation/s
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate("/createreservation")}>
+                        <AddIcon sx={{ mr: 1 }} />
+                        Create Reservation/s
                     </MenuItem>
                 </Menu>
 

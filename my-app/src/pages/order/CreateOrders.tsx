@@ -3,14 +3,14 @@ import {
     Container, Typography, Box, Button, MenuItem, Select, SelectChangeEvent, CircularProgress
 } from "@mui/material";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 interface FoodItem {
     id: number;
     name: string;
 }
 
-const FoodReservation: React.FC = () => {
+const CreateOrders: React.FC = () => {
     const [food, setFood] = useState<string>("");
     const [foodList, setFoodList] = useState<FoodItem[]>([]);
     const [userName, setUserName] = useState<string>("");
@@ -20,7 +20,7 @@ const FoodReservation: React.FC = () => {
         const fetchData = async () => {
             try {
                 // Fetch food items
-                const foodResponse = await axios.get("http://localhost:5000/api/orders/getfooditems");
+                const foodResponse = await axios.get("http://localhost:5000/api/foods/getfooditems");
                 setFoodList(foodResponse.data);
 
                 // Fetch logged-in user's name
@@ -57,7 +57,7 @@ const FoodReservation: React.FC = () => {
                 food_id: selectedFood.id,
             });
 
-            alert(`Reservation successful: ${food}`);
+            alert(`Successfully ordered: ${food}`);
             setFood("");
         } catch (error) {
             console.error("Error reserving food:", error);
@@ -71,7 +71,7 @@ const FoodReservation: React.FC = () => {
             <Container>
                 <Box sx={{ mt: 4, textAlign: "center" }}>
                     <Typography variant="h4" gutterBottom>
-                        Food Reservation
+                        Order Choices
                     </Typography>
 
                     {loading ? (
@@ -88,7 +88,7 @@ const FoodReservation: React.FC = () => {
                             </Select>
                             <br />
                             <Button variant="contained" color="primary" onClick={handleSubmit}>
-                                Reserve
+                                Order
                             </Button>
                         </>
                     )}
@@ -98,5 +98,5 @@ const FoodReservation: React.FC = () => {
     );
 };
 
-export default FoodReservation;
-export { FoodReservation }
+export default CreateOrders;
+export { CreateOrders }

@@ -3,7 +3,7 @@ import { Container, TextField, Button, Typography, Box, IconButton } from "@mui/
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 const AddFood: React.FC = () => {
     const [foodNames, setFoodNames] = useState<string[]>([""]); // Initialize with one input
@@ -59,7 +59,7 @@ const AddFood: React.FC = () => {
             <Container maxWidth="sm">
                 <Box sx={{ mt: 4, textAlign: "center" }}>
                     <Typography variant="h4" gutterBottom>
-                        Add Foods
+                        Add Foods :D
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         {foodNames.map((foodName, index) => (
